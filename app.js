@@ -1,94 +1,66 @@
 // Declarar variables a utilizar
-let seleccionUsuario;
-let seleccionPC;
-let piedra = document.getElementById("piedra");
-let papel = document.getElementById("papel");
-let tijera = document.getElementById("tijera");
-let titulo = document.getElementById("titulo_eleccion")
+const piedra = document.getElementById("piedra");
+const papel = document.getElementById("papel");
+const tijera = document.getElementById("tijera");
+const titulo = document.getElementById("titulo_eleccion");
+const conteoVictorias = document.getElementById("conteo_victorias");
+const conteoDerrotas = document.getElementById("conteo_derrotas");
 
-// Funcion para mostrar al usuario, ya sea piedra, papel, tijera en lugar de un numero
-function traducirNumero() {
-    if (seleccionPC == 1) {
-        return "Piedra"
-    } else if (seleccionPC == 2) {
-        return "Papel"
-    } else {
-        return "Tijera"
-    }
-}
+const PIEDRA = 1;
+const PAPEL = 2;
+const TIJERA = 3;
 
-// funciones depende de la seleccion del usuario
-function espiedra() {
-    seleccionUsuario = 1;
-    seleccionPC = Math.floor(Math.random() * 3 + 1);
-    if (seleccionPC == seleccionUsuario) {
-        titulo.innerHTML = "Empate, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 1 && seleccionPC == 3) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 2 && seleccionPC == 1) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 3 && seleccionPC == 2) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else {
-        titulo.innerHTML = "Perdiste, el PC eligió " + traducirNumero();
-    }
-}
-function espapel() {
-    seleccionUsuario = 2;
-    seleccionPC = Math.floor(Math.random() * 3 + 1);
-    if (seleccionPC == seleccionUsuario) {
-        titulo.innerHTML = "Empate, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 1 && seleccionPC == 3) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 2 && seleccionPC == 1) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 3 && seleccionPC == 2) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else {
-        titulo.innerHTML = "Perdiste, el PC eligió " + traducirNumero();
-    }
-}
-function estijera() {
-    seleccionUsuario = 3;
-    seleccionPC = Math.floor(Math.random() * 3 + 1);
-    if (seleccionPC == seleccionUsuario) {
-        titulo.innerHTML = "Empate, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 1 && seleccionPC == 3) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 2 && seleccionPC == 1) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else if (seleccionUsuario == 3 && seleccionPC == 2) {
-        titulo.innerHTML = "Ganaste, el PC eligió " + traducirNumero();
-    } else {
-        titulo.innerHTML = "Perdiste, el PC eligió " + traducirNumero();
-    }
+let victorias = 0;
+let derrotas = 0;
+
+const opciones = {
+  [PIEDRA]: 'Piedra',
+  [PAPEL]: 'Papel',
+  [TIJERA]: 'Tijera'
+};
+
+// Función para mostrar la elección de la PC
+function traducirNumero(num) {
+  return opciones[num];
 }
 
-
-piedra.addEventListener("click", espiedra)
-papel.addEventListener("click", espapel)
-tijera.addEventListener("click", estijera)
-
-// funciones para las annimaciones de botones
-function animacionPiedra() {
-    piedra.classList.add("animate__heartBeat")
-    setTimeout(() => {
-        piedra.classList.remove("animate__heartBeat");
-    }, 1250);
-}
-function animacionPapel() {
-    papel.classList.add("animate__heartBeat")
-    setTimeout(() => {
-        papel.classList.remove("animate__heartBeat");
-    }, 1250);
-}
-function animacionTijera() {
-    tijera.classList.add("animate__heartBeat")
-    setTimeout(() => {
-        tijera.classList.remove("animate__heartBeat");
-    }, 1250);
+// Función para jugar una ronda
+function jugar(seleccionUsuario) {
+  const seleccionPC = Math.floor(Math.random() * 3 + 1);
+  if (seleccionPC === seleccionUsuario) {
+    titulo.innerHTML = `Empate, el PC eligió ${traducirNumero(seleccionPC)}`;
+  } else if (
+    (seleccionUsuario === PIEDRA && seleccionPC === TIJERA) ||
+    (seleccionUsuario === PAPEL && seleccionPC === PIEDRA) ||
+    (seleccionUsuario === TIJERA && seleccionPC === PAPEL)
+  ) {
+    titulo.innerHTML = `Ganaste, el PC eligió ${traducirNumero(seleccionPC)}`;
+    victorias++;
+  } else {
+    titulo.innerHTML = `Perdiste, el PC eligió ${traducirNumero(seleccionPC)}`;
+    derrotas++;
+  }
+  actualizarConteo();
 }
 
-piedra.addEventListener("click", animacionPiedra)
-papel.addEventListener("click", animacionPapel)
-tijera.addEventListener("click", animacionTijera)
+// Función para actualizar el contador de victorias y derrotas
+function actualizarConteo() {
+  conteoVictorias.innerHTML = victorias;
+  conteoDerrotas.innerHTML = derrotas;
+}
+
+// Función para agregar animación a un botón
+function agregarAnimacion(elemento) {
+  elemento.classList.add("animate__heartBeat");
+  setTimeout(() => {
+    elemento.classList.remove("animate__heartBeat");
+  }, 1250);
+}
+
+// Asignar eventos a los botones
+[piedra, papel, tijera].forEach((elemento, index) => {
+  elemento.addEventListener("click", () => {
+    jugar(index + 1);
+    agregarAnimacion(elemento);
+  });
+});
