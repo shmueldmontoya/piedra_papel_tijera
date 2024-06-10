@@ -80,13 +80,13 @@ function animacionPapel() {
     papel.classList.add("animate__heartBeat")
     setTimeout(() => {
         papel.classList.remove("animate__heartBeat");
-    }, 1300);
+    }, 1250);
 }
 function animacionTijera() {
     tijera.classList.add("animate__heartBeat")
     setTimeout(() => {
         tijera.classList.remove("animate__heartBeat");
-    }, 1300);
+    }, 1250);
 }
 
 piedra.addEventListener("click", animacionPiedra)
