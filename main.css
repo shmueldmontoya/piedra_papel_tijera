@@ -10,7 +10,7 @@
 }
 
 body {
-    display: flex;
+    display: flex; 
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -34,7 +34,19 @@ body {
     max-width: 600px;
     height: auto;
 }
-
+.conteos {
+    margin-left: 50px;
+    width: 25%;
+    align-self: baseline;
+}
+.conteos p {
+    margin: 0;
+    padding: 0;
+}
+.contenedor {
+    display: flex;
+    flex-direction: row;
+}
 .titulo_eleccion {
     color: #ffffff;
     font-size: 1.5rem;
