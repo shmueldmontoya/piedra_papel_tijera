@@ -44,6 +44,7 @@ body {
     padding: 0;
 }
 .contenedor {
+    padding: 0 25px;
     display: flex;
     flex-direction: row;
 }
